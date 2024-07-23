@@ -1,0 +1,176 @@
+Questions
+1. Which incurred_org do we want to use?
+    Should it be all Viasat that worked on the program or just Atlanta based ones maybe?
+
+
+    The following orgs had task names related to Guam (currently location of antenna installs), and/or frequently showed up when checking which orgs worked on the programs Reign gave.
+        --
+        "Eng - GSN System Int & Test Government", 
+        "Eng - AS", "Facilities - Georgia", 
+        "SGS",
+        "GSD", 
+        "75", 
+        "VWS", 
+        "Eng - CN Deployment Eng"
+
+        --
+    Note: Should check project numbers Reign gave.
+
+2. There is also "task_carrying_out_org" - does that imply the organization carrying out the task is different from the organization that incurs the cost? For programs Reign gave
+
+
+3. What is the difference between 'pc' and 'pfc'? 
+    Many columns end in either _pc or _pfc
+
+
+4.  I'm not able to find any of the product names (e.g. TH2000, 3440 upgrades, X/V Systems) that Reign gave us in the data, but they can be inferred from the project/program names
+
+
+5. Is AWS 6 Pack 5.4M the right AWS program under the X/V upgrades product? Lots of projects with RTE in the name. Same with NBN and others. Need more specific project names. 
+
+
+
+
+
+Column Notes:
+incurred_org:The organization that incurred the cost of the row
+incurred_by_organization_id: Id for incurred_org
+expenditure_category: Includes values Materials, Burden, Labor, Indirect Labor, Temp Labor, Subcon, Accrued Benefits Liability, ODC,  Mfg Xfer, 
+expenditure_type_code: Details type of expenditure (Mtl Overhead, Travel - Airline, Eng Labor, etc.)
+expenditure_type_detail: Indicates expenditure type in a short code.
+project_name: program/job name
+project_number: Job number
+task_name: Task name
+task_number: Task number
+regular_time: What unit is this? And why are some of the values negative?
+burden_cost: Expenditure of employee's time + indirect cost of employee (hidden costs of maintaining employee) Has a max/min of +/- 839434.28 - why? 
+burden_cost_rate: burden_cost/regular_time
+adjusted_exp_flag: adjusted expense flag
+adjusted_revenue_currency_code: currency code (USD) for adjusted(?) revenue
+bill_hold_flag: ? maybe if the bill for the expenditure has been paid out or not
+billable_flag: Is this expense billable?
+billed_flag: Has the expense been billed
+cost_burden_dist_flag: ??
+cost_distributed_flag: ??
+cost_currency_code: cost currency code
+cross_charge_flag:??
+currency_code: currency code for expenditure
+date_record_created: datetime when expenditure record was created
+expenditure_ending_date: The friday after the expenditure item date
+expenditure_item_date: date of expenditure
+external_transaction_source: ORACLE TIME AND LABOR/Time Month End Accruals
+task_completion_date: date task was completed
+task_start_date
+glc: ??
+labor_or_nonlabor_flag: whether expenditure is labor or not (it's N for temp labor?)
+far_required_flag: ??
+mpm_export_flag: ??
+transfer_from_project_flag: ?? Riptide has null for all of these
+transfer_into_project_flag: Identity to transfer_from_project_flag
+quantity: same as regular_time, probably regular_time+vacation+etc.
+raw_cost: cost without burden perhaps
+raw_cost_rate: raw_cost/regular time
+task_level: ?? 1,2, or 3
+
+Sharepoint important links:
+NRE Estimate Template: https://viasatinc.sharepoint.com/:x:/r/sites/vatleng/_layouts/15/Doc.aspx?sourcedoc=%7B9D5291CA-453B-4DFF-B7D7-17382907A610%7D&file=NRE%20Estimate%20Template%20-%20SIE.xlsx&action=default&mobileredirect=true&wdsle=0
+
+
+
+
+
+
+Questions:
+what is glc, task level, mpm_export_flag, far_required_flag, transfer_from_project_flag - and why would riptide have all nulls for this?
+What exactly are we accounting for? Temp labor? Per diem? Is burden cost more important or raw labor cost? Which roles or tasks should be included?
+What is expenditure_start and expenditure_ending_date?
+
+
+
+
+
+
+
+
+
+
+
+General Notes:
+- AS = Antenna Systems
+- Burden includes overhead, overhead depreciation
+
+TNs: 3110 SIE (Standard Hrs)
+3180 SIE (Standard Hrs)
+3220 Stage & Factory / System Level FAT (Standard Hrs)
+4200 Installation (per week - 8 hour days)
+
+
+
+
+
+
+
+
+# List of projects with project numbers and hours for each task:
+"""
+Project: Censipam (Project Number: 1839)
+    Task 1 (Task Number: 3110) - Hours: 0
+    Task 2 (Task Number: 3180) - Hours: 300
+    Task 3 (Task Number: 3220) - Hours: 360
+    Task 4 (Task Number: 4200) - Hours: 272
+
+Project: SHILOH (Project Number: 1881)
+    Task 1 (Task Number: 3110) - Hours: 0
+    Task 2 (Task Number: 3180) - Hours: 420
+    Task 3 (Task Number: 3220) - Hours: 1888 # Actual hours significantly lower
+    Task 4 (Task Number: 4200) - Hours: 576
+
+Project: LANCE (Project Number: 1940)
+    Task 1 (Task Number: 3110) - Hours: 14
+    Task 2 (Task Number: 3180) - Hours: 71
+    Task 3 (Task Number: 3220) - Hours: 856 # Actual hours significantly lower
+    Task 4 (Task Number: 4200) - Hours: 944
+
+Project: Wombat (Project Number: 1952) # Actual hours are significantly lower, something might be wrong
+    Task 1 (Task Number: 3110) - Hours: 44
+    Task 2 (Task Number: 3180) - Hours: 136
+    Task 3 (Task Number: 3220) - Hours: 322
+    Task 4 (Task Number: 4200) - Hours: 360
+
+Project: DAF08 11M Replacement (Project Number: 1971)
+    Task 1 (Task Number: 3110) - Hours: 0
+    Task 2 (Task Number: 3180) - Hours: 150
+    Task 3 (Task Number: 3220) - Hours: 260
+    Task 4 (Task Number: 4200) - Hours: 180
+
+Project: BIAK 11 M System (Project Number: 1967)
+    Task 1 (Task Number: 3110) - Hours: 0
+    Task 2 (Task Number: 3180) - Hours: 150
+    Task 3 (Task Number: 3220) - Hours: 160
+    Task 4 (Task Number: 4200) - Hours: 240
+
+Project: Cobra (Project Number: 1965)
+    Task 1.1 (Task Number: 3110.1 (Specs/RVTM Meetings/Reviews/Analysis)) - Hours: 1584 system engineering hours
+    Task 1.2 (Task Number: 3110.2 (IDC/Test Plans/Top Level Drawings)) - Hours: 320 system integration engineering hours
+    Task 2 (Task Number: 3180) - Hours: 300
+    Task 3 (Task Number: 3220) - Hours: 960 system engineering hours
+    Task 4 (Task Number: 4200) - Hours: 3200 (four systems 640*2 + 960*2)
+
+Project: NAVSOC-Peraton (Project Number: 5002)
+    Task 1 (Task Number: 3110) - Hours: 84
+    Task 2 (Task Number: 3180) - Hours: 324
+    Task 3 (Task Number: 3220) - Hours: 320
+    Task 4 (Task Number: 4200) - Hours: 
+    Task 4.1 (Task Number: 4200.1 (Laguna Point Installation)) - Hours: 120
+    Task 4.2 (Task Number: 4200.1 (Prospect Point Installation)) - Hours: 120
+"""
+
+
+# 1881 - SHILOH
+# 1839 - Censipam
+# 1940 - LANCE
+# 1952 - Wombat
+# 1971 - DAF08 11M Replacement
+# 1967 - BIAK 11 M System
+# 1965 - Cobra
+# 5002 - NAVSOC-Peraton
